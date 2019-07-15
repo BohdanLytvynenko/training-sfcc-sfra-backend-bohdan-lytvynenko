@@ -26,4 +26,9 @@
         <isinclude template="/product/components/pricing/formatted" />
         </span>
     </span>
+
+    <isif condition="${finalOrigPrice.list !== null}">
+        <isset name="pricePercentage" value="${parseInt(100 - finalOrigPrice.sales.decimalPrice * 100 / finalOrigPrice.list.decimalPrice)}" scope="page" />
+        <p class="best-deal">${Resource.msgf('productPrice.bestDeal', 'productprice', null, pricePercentage)}</p>
+    </isif>
 </span>
