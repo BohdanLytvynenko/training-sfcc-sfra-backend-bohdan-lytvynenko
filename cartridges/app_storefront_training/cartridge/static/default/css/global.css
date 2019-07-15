@@ -12959,6 +12959,11 @@ div.availability {
   text-align: center;
   margin-top: 1em; }
 
+.best-deal {
+  text-transform: uppercase;
+  color: red;
+  font-weight: bold; }
+
 .form-nav .nav-tabs .nav-link {
   color: #333; }
 
