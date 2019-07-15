@@ -99,35 +99,33 @@
 var formValidation = __webpack_require__(/*! ./components/formValidation */ "./cartridges/app_storefront_training/cartridge/client/default/js/components/formValidation.js");
 
 $(document).ready(function () {
-  $('form.checkout-registration').submit(function (e) {
-    var form = $(this);
-    e.preventDefault();
-    var url = form.attr('action');
-    form.spinner().start();
-    $.ajax({
-      url: url,
-      type: 'post',
-      dataType: 'json',
-      data: form.serialize(),
-      success: function (data) {
-        form.spinner().stop();
-
-        if (!data.success) {
-          formValidation(form, data);
-        } else {
-          location.href = data.redirectUrl;
-        }
-      },
-      error: function (err) {
-        if (err.responseJSON.redirectUrl) {
-          window.location.href = err.responseJSON.redirectUrl;
-        }
-
-        form.spinner().stop();
-      }
+    $('form.checkout-registration').submit(function (e) {
+        var form = $(this);
+        e.preventDefault();
+        var url = form.attr('action');
+        form.spinner().start();
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: form.serialize(),
+            success: function success(data) {
+                form.spinner().stop();
+                if (!data.success) {
+                    formValidation(form, data);
+                } else {
+                    location.href = data.redirectUrl;
+                }
+            },
+            error: function error(err) {
+                if (err.responseJSON.redirectUrl) {
+                    window.location.href = err.responseJSON.redirectUrl;
+                }
+                form.spinner().stop();
+            }
+        });
+        return false;
     });
-    return false;
-  });
 });
 
 /***/ }),
@@ -141,43 +139,45 @@ $(document).ready(function () {
 
 "use strict";
 
+
 /**
  * Remove all validation. Should be called every time before revalidating form
  * @param {element} form - Form to be cleared
  * @returns {void}
  */
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function clearFormErrors(form) {
-  $(form).find('.form-control.is-invalid').removeClass('is-invalid');
+    $(form).find('.form-control.is-invalid').removeClass('is-invalid');
 }
 
 module.exports = function (formElement, payload) {
-  // clear form validation first
-  clearFormErrors(formElement);
-  $('.alert', formElement).remove();
+    // clear form validation first
+    clearFormErrors(formElement);
+    $('.alert', formElement).remove();
 
-  if (typeof payload === 'object' && payload.fields) {
-    Object.keys(payload.fields).forEach(function (key) {
-      if (payload.fields[key]) {
-        var feedbackElement = $(formElement).find('[name="' + key + '"]').parent().children('.invalid-feedback');
+    if ((typeof payload === 'undefined' ? 'undefined' : _typeof(payload)) === 'object' && payload.fields) {
+        Object.keys(payload.fields).forEach(function (key) {
+            if (payload.fields[key]) {
+                var feedbackElement = $(formElement).find('[name="' + key + '"]').parent().children('.invalid-feedback');
 
-        if (feedbackElement.length > 0) {
-          if (Array.isArray(payload[key])) {
-            feedbackElement.html(payload.fields[key].join('<br/>'));
-          } else {
-            feedbackElement.html(payload.fields[key]);
-          }
+                if (feedbackElement.length > 0) {
+                    if (Array.isArray(payload[key])) {
+                        feedbackElement.html(payload.fields[key].join('<br/>'));
+                    } else {
+                        feedbackElement.html(payload.fields[key]);
+                    }
+                    feedbackElement.siblings('.form-control').addClass('is-invalid');
+                }
+            }
+        });
+    }
+    if (payload && payload.error) {
+        var form = $(formElement).prop('tagName') === 'FORM' ? $(formElement) : $(formElement).parents('form');
 
-          feedbackElement.siblings('.form-control').addClass('is-invalid');
-        }
-      }
-    });
-  }
-
-  if (payload && payload.error) {
-    var form = $(formElement).prop('tagName') === 'FORM' ? $(formElement) : $(formElement).parents('form');
-    form.prepend('<div class="alert alert-danger">' + payload.error.join('<br/>') + '</div>');
-  }
+        form.prepend('<div class="alert alert-danger">' + payload.error.join('<br/>') + '</div>');
+    }
 };
 
 /***/ })

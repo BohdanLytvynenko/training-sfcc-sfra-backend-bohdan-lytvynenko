@@ -96,16 +96,18 @@
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 module.exports = function (include) {
-  if (typeof include === 'function') {
-    include();
-  } else if (typeof include === 'object') {
-    Object.keys(include).forEach(function (key) {
-      if (typeof include[key] === 'function') {
-        include[key]();
-      }
-    });
-  }
+    if (typeof include === 'function') {
+        include();
+    } else if ((typeof include === 'undefined' ? 'undefined' : _typeof(include)) === 'object') {
+        Object.keys(include).forEach(function (key) {
+            if (typeof include[key] === 'function') {
+                include[key]();
+            }
+        });
+    }
 };
 
 /***/ })

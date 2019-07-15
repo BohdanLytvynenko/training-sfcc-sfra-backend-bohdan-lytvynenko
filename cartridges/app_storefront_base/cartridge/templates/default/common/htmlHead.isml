@@ -29,6 +29,8 @@
 <link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-16x16.png')}" sizes="16x16" />
 <link rel="icon" type="image/png" href="${URLUtils.staticURL('/images/favicons/favicon-128.png')}" sizes="128x128" />
 
+<link rel="stylesheet" type="" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
 <link rel="stylesheet" href="${URLUtils.staticURL('/css/global.css')}" />
 <isloop items="${ require('*/cartridge/scripts/assets.js').styles }" var="style">
     <link rel="stylesheet" href="${style}" />
