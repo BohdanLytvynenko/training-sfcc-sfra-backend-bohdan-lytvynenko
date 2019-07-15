@@ -99,7 +99,7 @@
 var processInclude = __webpack_require__(/*! ./util */ "./cartridges/app_storefront_training/cartridge/client/default/js/util.js");
 
 $(document).ready(function () {
-  processInclude(__webpack_require__(/*! ./orderHistory/orderHistory */ "./cartridges/app_storefront_training/cartridge/client/default/js/orderHistory/orderHistory.js"));
+    processInclude(__webpack_require__(/*! ./orderHistory/orderHistory */ "./cartridges/app_storefront_training/cartridge/client/default/js/orderHistory/orderHistory.js"));
 });
 
 /***/ }),
@@ -115,27 +115,26 @@ $(document).ready(function () {
 
 
 module.exports = function () {
-  $('body').on('change', '.order-history-select', function (e) {
-    var $ordersContainer = $('.order-list-container');
-    $ordersContainer.empty();
-    $.spinner().start();
-    $('.order-history-select').trigger('orderHistory:sort', e);
-    $.ajax({
-      url: e.currentTarget.value,
-      method: 'GET',
-      success: function (data) {
-        $ordersContainer.html(data);
-        $.spinner().stop();
-      },
-      error: function (err) {
-        if (err.responseJSON.redirectUrl) {
-          window.location.href = err.responseJSON.redirectUrl;
-        }
-
-        $.spinner().stop();
-      }
+    $('body').on('change', '.order-history-select', function (e) {
+        var $ordersContainer = $('.order-list-container');
+        $ordersContainer.empty();
+        $.spinner().start();
+        $('.order-history-select').trigger('orderHistory:sort', e);
+        $.ajax({
+            url: e.currentTarget.value,
+            method: 'GET',
+            success: function success(data) {
+                $ordersContainer.html(data);
+                $.spinner().stop();
+            },
+            error: function error(err) {
+                if (err.responseJSON.redirectUrl) {
+                    window.location.href = err.responseJSON.redirectUrl;
+                }
+                $.spinner().stop();
+            }
+        });
     });
-  });
 };
 
 /***/ }),
@@ -150,16 +149,18 @@ module.exports = function () {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 module.exports = function (include) {
-  if (typeof include === 'function') {
-    include();
-  } else if (typeof include === 'object') {
-    Object.keys(include).forEach(function (key) {
-      if (typeof include[key] === 'function') {
-        include[key]();
-      }
-    });
-  }
+    if (typeof include === 'function') {
+        include();
+    } else if ((typeof include === 'undefined' ? 'undefined' : _typeof(include)) === 'object') {
+        Object.keys(include).forEach(function (key) {
+            if (typeof include[key] === 'function') {
+                include[key]();
+            }
+        });
+    }
 };
 
 /***/ })

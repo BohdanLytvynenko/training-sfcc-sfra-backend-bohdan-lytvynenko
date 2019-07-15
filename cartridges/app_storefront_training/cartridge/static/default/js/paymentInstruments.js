@@ -99,39 +99,43 @@
 var Cleave = __webpack_require__(/*! cleave.js */ "./node_modules/cleave.js/dist/cleave.js");
 
 module.exports = {
-  handleCreditCardNumber: function (cardFieldSelector, cardTypeSelector) {
-    var cleave = new Cleave(cardFieldSelector, {
-      creditCard: true,
-      onCreditCardTypeChanged: function (type) {
-        var creditCardTypes = {
-          visa: 'Visa',
-          mastercard: 'Master Card',
-          amex: 'Amex',
-          discover: 'Discover',
-          unknown: 'Unknown'
-        };
-        var cardType = creditCardTypes[Object.keys(creditCardTypes).indexOf(type) > -1 ? type : 'unknown'];
-        $(cardTypeSelector).val(cardType);
-        $('.card-number-wrapper').attr('data-type', type);
+    handleCreditCardNumber: function handleCreditCardNumber(cardFieldSelector, cardTypeSelector) {
+        var cleave = new Cleave(cardFieldSelector, {
+            creditCard: true,
+            onCreditCardTypeChanged: function onCreditCardTypeChanged(type) {
+                var creditCardTypes = {
+                    visa: 'Visa',
+                    mastercard: 'Master Card',
+                    amex: 'Amex',
+                    discover: 'Discover',
+                    unknown: 'Unknown'
+                };
 
-        if (type === 'visa' || type === 'mastercard' || type === 'discover') {
-          $('#securityCode').attr('maxlength', 3);
-        } else {
-          $('#securityCode').attr('maxlength', 4);
-        }
-      }
-    });
-    $(cardFieldSelector).data('cleave', cleave);
-  },
-  serializeData: function (form) {
-    var serializedArray = form.serializeArray();
-    serializedArray.forEach(function (item) {
-      if (item.name.indexOf('cardNumber') > -1) {
-        item.value = $('#cardNumber').data('cleave').getRawValue(); // eslint-disable-line
-      }
-    });
-    return $.param(serializedArray);
-  }
+                var cardType = creditCardTypes[Object.keys(creditCardTypes).indexOf(type) > -1 ? type : 'unknown'];
+                $(cardTypeSelector).val(cardType);
+                $('.card-number-wrapper').attr('data-type', type);
+                if (type === 'visa' || type === 'mastercard' || type === 'discover') {
+                    $('#securityCode').attr('maxlength', 3);
+                } else {
+                    $('#securityCode').attr('maxlength', 4);
+                }
+            }
+        });
+
+        $(cardFieldSelector).data('cleave', cleave);
+    },
+
+    serializeData: function serializeData(form) {
+        var serializedArray = form.serializeArray();
+
+        serializedArray.forEach(function (item) {
+            if (item.name.indexOf('cardNumber') > -1) {
+                item.value = $('#cardNumber').data('cleave').getRawValue(); // eslint-disable-line
+            }
+        });
+
+        return $.param(serializedArray);
+    }
 };
 
 /***/ }),
@@ -145,43 +149,45 @@ module.exports = {
 
 "use strict";
 
+
 /**
  * Remove all validation. Should be called every time before revalidating form
  * @param {element} form - Form to be cleared
  * @returns {void}
  */
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function clearFormErrors(form) {
-  $(form).find('.form-control.is-invalid').removeClass('is-invalid');
+    $(form).find('.form-control.is-invalid').removeClass('is-invalid');
 }
 
 module.exports = function (formElement, payload) {
-  // clear form validation first
-  clearFormErrors(formElement);
-  $('.alert', formElement).remove();
+    // clear form validation first
+    clearFormErrors(formElement);
+    $('.alert', formElement).remove();
 
-  if (typeof payload === 'object' && payload.fields) {
-    Object.keys(payload.fields).forEach(function (key) {
-      if (payload.fields[key]) {
-        var feedbackElement = $(formElement).find('[name="' + key + '"]').parent().children('.invalid-feedback');
+    if ((typeof payload === 'undefined' ? 'undefined' : _typeof(payload)) === 'object' && payload.fields) {
+        Object.keys(payload.fields).forEach(function (key) {
+            if (payload.fields[key]) {
+                var feedbackElement = $(formElement).find('[name="' + key + '"]').parent().children('.invalid-feedback');
 
-        if (feedbackElement.length > 0) {
-          if (Array.isArray(payload[key])) {
-            feedbackElement.html(payload.fields[key].join('<br/>'));
-          } else {
-            feedbackElement.html(payload.fields[key]);
-          }
+                if (feedbackElement.length > 0) {
+                    if (Array.isArray(payload[key])) {
+                        feedbackElement.html(payload.fields[key].join('<br/>'));
+                    } else {
+                        feedbackElement.html(payload.fields[key]);
+                    }
+                    feedbackElement.siblings('.form-control').addClass('is-invalid');
+                }
+            }
+        });
+    }
+    if (payload && payload.error) {
+        var form = $(formElement).prop('tagName') === 'FORM' ? $(formElement) : $(formElement).parents('form');
 
-          feedbackElement.siblings('.form-control').addClass('is-invalid');
-        }
-      }
-    });
-  }
-
-  if (payload && payload.error) {
-    var form = $(formElement).prop('tagName') === 'FORM' ? $(formElement) : $(formElement).parents('form');
-    form.prepend('<div class="alert alert-danger">' + payload.error.join('<br/>') + '</div>');
-  }
+        form.prepend('<div class="alert alert-danger">' + payload.error.join('<br/>') + '</div>');
+    }
 };
 
 /***/ }),
@@ -199,7 +205,7 @@ module.exports = function (formElement, payload) {
 var processInclude = __webpack_require__(/*! ./util */ "./cartridges/app_storefront_training/cartridge/client/default/js/util.js");
 
 $(document).ready(function () {
-  processInclude(__webpack_require__(/*! ./paymentInstruments/paymentInstruments */ "./cartridges/app_storefront_training/cartridge/client/default/js/paymentInstruments/paymentInstruments.js"));
+    processInclude(__webpack_require__(/*! ./paymentInstruments/paymentInstruments */ "./cartridges/app_storefront_training/cartridge/client/default/js/paymentInstruments/paymentInstruments.js"));
 });
 
 /***/ }),
@@ -215,80 +221,81 @@ $(document).ready(function () {
 
 
 var formValidation = __webpack_require__(/*! ../components/formValidation */ "./cartridges/app_storefront_training/cartridge/client/default/js/components/formValidation.js");
-
 var cleave = __webpack_require__(/*! ../components/cleave */ "./cartridges/app_storefront_training/cartridge/client/default/js/components/cleave.js");
 
 var url;
+
 module.exports = {
-  removePayment: function () {
-    $('.remove-payment').on('click', function (e) {
-      e.preventDefault();
-      url = $(this).data('url') + '?UUID=' + $(this).data('id');
-      $('.payment-to-remove').empty().append($(this).data('card'));
-      $('.delete-confirmation-btn').click(function (f) {
-        f.preventDefault();
-        $('.remove-payment').trigger('payment:remove', f);
-        $.ajax({
-          url: url,
-          type: 'get',
-          dataType: 'json',
-          success: function (data) {
-            $('#uuid-' + data.UUID).remove();
+    removePayment: function removePayment() {
+        $('.remove-payment').on('click', function (e) {
+            e.preventDefault();
+            url = $(this).data('url') + '?UUID=' + $(this).data('id');
+            $('.payment-to-remove').empty().append($(this).data('card'));
 
-            if (data.message) {
-              var toInsert = '<div><h3>' + data.message + '</h3><div>';
-              $('.paymentInstruments').after(toInsert);
-            }
-          },
-          error: function (err) {
-            if (err.responseJSON.redirectUrl) {
-              window.location.href = err.responseJSON.redirectUrl;
-            }
-
-            $.spinner().stop();
-          }
+            $('.delete-confirmation-btn').click(function (f) {
+                f.preventDefault();
+                $('.remove-payment').trigger('payment:remove', f);
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function success(data) {
+                        $('#uuid-' + data.UUID).remove();
+                        if (data.message) {
+                            var toInsert = '<div><h3>' + data.message + '</h3><div>';
+                            $('.paymentInstruments').after(toInsert);
+                        }
+                    },
+                    error: function error(err) {
+                        if (err.responseJSON.redirectUrl) {
+                            window.location.href = err.responseJSON.redirectUrl;
+                        }
+                        $.spinner().stop();
+                    }
+                });
+            });
         });
-      });
-    });
-  },
-  submitPayment: function () {
-    $('form.payment-form').submit(function (e) {
-      var $form = $(this);
-      e.preventDefault();
-      url = $form.attr('action');
-      $form.spinner().start();
-      $('form.payment-form').trigger('payment:submit', e);
-      var formData = cleave.serializeData($form);
-      $.ajax({
-        url: url,
-        type: 'post',
-        dataType: 'json',
-        data: formData,
-        success: function (data) {
-          $form.spinner().stop();
+    },
 
-          if (!data.success) {
-            formValidation($form, data);
-          } else {
-            location.href = data.redirectUrl;
-          }
-        },
-        error: function (err) {
-          if (err.responseJSON.redirectUrl) {
-            window.location.href = err.responseJSON.redirectUrl;
-          }
+    submitPayment: function submitPayment() {
+        $('form.payment-form').submit(function (e) {
+            var $form = $(this);
+            e.preventDefault();
+            url = $form.attr('action');
+            $form.spinner().start();
+            $('form.payment-form').trigger('payment:submit', e);
 
-          $form.spinner().stop();
+            var formData = cleave.serializeData($form);
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: formData,
+                success: function success(data) {
+                    $form.spinner().stop();
+                    if (!data.success) {
+                        formValidation($form, data);
+                    } else {
+                        location.href = data.redirectUrl;
+                    }
+                },
+                error: function error(err) {
+                    if (err.responseJSON.redirectUrl) {
+                        window.location.href = err.responseJSON.redirectUrl;
+                    }
+                    $form.spinner().stop();
+                }
+            });
+            return false;
+        });
+    },
+
+    handleCreditCardNumber: function handleCreditCardNumber() {
+        if ($('#cardNumber').length && $('#cardType').length) {
+            cleave.handleCreditCardNumber('#cardNumber', '#cardType');
         }
-      });
-      return false;
-    });
-  },
-  handleCreditCardNumber: function () {
-    if ($('#cardNumber').length && $('#cardType').length) {
-      cleave.handleCreditCardNumber('#cardNumber', '#cardType');
     }
-  }
 };
 
 /***/ }),
@@ -303,16 +310,18 @@ module.exports = {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 module.exports = function (include) {
-  if (typeof include === 'function') {
-    include();
-  } else if (typeof include === 'object') {
-    Object.keys(include).forEach(function (key) {
-      if (typeof include[key] === 'function') {
-        include[key]();
-      }
-    });
-  }
+    if (typeof include === 'function') {
+        include();
+    } else if ((typeof include === 'undefined' ? 'undefined' : _typeof(include)) === 'object') {
+        Object.keys(include).forEach(function (key) {
+            if (typeof include[key] === 'function') {
+                include[key]();
+            }
+        });
+    }
 };
 
 /***/ }),

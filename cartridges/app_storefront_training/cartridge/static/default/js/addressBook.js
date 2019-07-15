@@ -99,7 +99,7 @@
 var processInclude = __webpack_require__(/*! ./util */ "./cartridges/app_storefront_training/cartridge/client/default/js/util.js");
 
 $(document).ready(function () {
-  processInclude(__webpack_require__(/*! ./addressBook/addressBook */ "./cartridges/app_storefront_training/cartridge/client/default/js/addressBook/addressBook.js"));
+    processInclude(__webpack_require__(/*! ./addressBook/addressBook */ "./cartridges/app_storefront_training/cartridge/client/default/js/addressBook/addressBook.js"));
 });
 
 /***/ }),
@@ -118,85 +118,81 @@ var formValidation = __webpack_require__(/*! ../components/formValidation */ "./
 
 var url;
 var isDefault;
+
 module.exports = {
-  removeAddress: function () {
-    $('.remove-address').on('click', function (e) {
-      e.preventDefault();
-      isDefault = $(this).data('default');
-
-      if (isDefault) {
-        url = $(this).data('url') + '?addressId=' + $(this).data('id') + '&isDefault=' + isDefault;
-      } else {
-        url = $(this).data('url') + '?addressId=' + $(this).data('id');
-      }
-
-      $('.product-to-remove').empty().append($(this).data('id'));
-      $('.delete-confirmation-btn').click(function (f) {
-        f.preventDefault();
-        $(e.target).trigger('address:remove', f);
-        $.ajax({
-          url: url,
-          type: 'get',
-          dataType: 'json',
-          success: function (data) {
-            $('#uuid-' + data.UUID).remove();
-
+    removeAddress: function removeAddress() {
+        $('.remove-address').on('click', function (e) {
+            e.preventDefault();
+            isDefault = $(this).data('default');
             if (isDefault) {
-              var addressId = $('.card .address-heading').first().text();
-              var addressHeading = addressId + ' (' + data.defaultMsg + ')';
-              $('.card .address-heading').first().text(addressHeading);
-              $('.card .card-make-default-link').first().remove();
-              $('.remove-address').data('default', true);
-
-              if (data.message) {
-                var toInsert = '<div><h3>' + data.message + '</h3><div>';
-                $('.addressList').after(toInsert);
-              }
+                url = $(this).data('url') + '?addressId=' + $(this).data('id') + '&isDefault=' + isDefault;
+            } else {
+                url = $(this).data('url') + '?addressId=' + $(this).data('id');
             }
-          },
-          error: function (err) {
-            if (err.responseJSON.redirectUrl) {
-              window.location.href = err.responseJSON.redirectUrl;
-            }
+            $('.product-to-remove').empty().append($(this).data('id'));
 
-            $.spinner().stop();
-          }
+            $('.delete-confirmation-btn').click(function (f) {
+                f.preventDefault();
+                $(e.target).trigger('address:remove', f);
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function success(data) {
+                        $('#uuid-' + data.UUID).remove();
+                        if (isDefault) {
+                            var addressId = $('.card .address-heading').first().text();
+                            var addressHeading = addressId + ' (' + data.defaultMsg + ')';
+                            $('.card .address-heading').first().text(addressHeading);
+                            $('.card .card-make-default-link').first().remove();
+                            $('.remove-address').data('default', true);
+                            if (data.message) {
+                                var toInsert = '<div><h3>' + data.message + '</h3><div>';
+                                $('.addressList').after(toInsert);
+                            }
+                        }
+                    },
+                    error: function error(err) {
+                        if (err.responseJSON.redirectUrl) {
+                            window.location.href = err.responseJSON.redirectUrl;
+                        }
+                        $.spinner().stop();
+                    }
+                });
+            });
         });
-      });
-    });
-  },
-  submitAddress: function () {
-    $('form.address-form').submit(function (e) {
-      var $form = $(this);
-      e.preventDefault();
-      url = $form.attr('action');
-      $form.spinner().start();
-      $('form.address-form').trigger('address:submit', e);
-      $.ajax({
-        url: url,
-        type: 'post',
-        dataType: 'json',
-        data: $form.serialize(),
-        success: function (data) {
-          $form.spinner().stop();
+    },
 
-          if (!data.success) {
-            formValidation($form, data);
-          } else {
-            location.href = data.redirectUrl;
-          }
-        },
-        error: function (err) {
-          if (err.responseJSON.redirectUrl) {
-            window.location.href = err.responseJSON.redirectUrl;
-          }
-
-          $form.spinner().stop();
-        }
-      });
-      return false;
-    });
-  }
+    submitAddress: function submitAddress() {
+        $('form.address-form').submit(function (e) {
+            var $form = $(this);
+            e.preventDefault();
+            url = $form.attr('action');
+            $form.spinner().start();
+            $('form.address-form').trigger('address:submit', e);
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: $form.serialize(),
+                success: function success(data) {
+                    $form.spinner().stop();
+                    if (!data.success) {
+                        formValidation($form, data);
+                    } else {
+                        location.href = data.redirectUrl;
+                    }
+                },
+                error: function error(err) {
+                    if (err.responseJSON.redirectUrl) {
+                        window.location.href = err.responseJSON.redirectUrl;
+                    }
+                    $form.spinner().stop();
+                }
+            });
+            return false;
+        });
+    }
 };
 
 /***/ }),
@@ -210,43 +206,45 @@ module.exports = {
 
 "use strict";
 
+
 /**
  * Remove all validation. Should be called every time before revalidating form
  * @param {element} form - Form to be cleared
  * @returns {void}
  */
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function clearFormErrors(form) {
-  $(form).find('.form-control.is-invalid').removeClass('is-invalid');
+    $(form).find('.form-control.is-invalid').removeClass('is-invalid');
 }
 
 module.exports = function (formElement, payload) {
-  // clear form validation first
-  clearFormErrors(formElement);
-  $('.alert', formElement).remove();
+    // clear form validation first
+    clearFormErrors(formElement);
+    $('.alert', formElement).remove();
 
-  if (typeof payload === 'object' && payload.fields) {
-    Object.keys(payload.fields).forEach(function (key) {
-      if (payload.fields[key]) {
-        var feedbackElement = $(formElement).find('[name="' + key + '"]').parent().children('.invalid-feedback');
+    if ((typeof payload === 'undefined' ? 'undefined' : _typeof(payload)) === 'object' && payload.fields) {
+        Object.keys(payload.fields).forEach(function (key) {
+            if (payload.fields[key]) {
+                var feedbackElement = $(formElement).find('[name="' + key + '"]').parent().children('.invalid-feedback');
 
-        if (feedbackElement.length > 0) {
-          if (Array.isArray(payload[key])) {
-            feedbackElement.html(payload.fields[key].join('<br/>'));
-          } else {
-            feedbackElement.html(payload.fields[key]);
-          }
+                if (feedbackElement.length > 0) {
+                    if (Array.isArray(payload[key])) {
+                        feedbackElement.html(payload.fields[key].join('<br/>'));
+                    } else {
+                        feedbackElement.html(payload.fields[key]);
+                    }
+                    feedbackElement.siblings('.form-control').addClass('is-invalid');
+                }
+            }
+        });
+    }
+    if (payload && payload.error) {
+        var form = $(formElement).prop('tagName') === 'FORM' ? $(formElement) : $(formElement).parents('form');
 
-          feedbackElement.siblings('.form-control').addClass('is-invalid');
-        }
-      }
-    });
-  }
-
-  if (payload && payload.error) {
-    var form = $(formElement).prop('tagName') === 'FORM' ? $(formElement) : $(formElement).parents('form');
-    form.prepend('<div class="alert alert-danger">' + payload.error.join('<br/>') + '</div>');
-  }
+        form.prepend('<div class="alert alert-danger">' + payload.error.join('<br/>') + '</div>');
+    }
 };
 
 /***/ }),
@@ -261,16 +259,18 @@ module.exports = function (formElement, payload) {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 module.exports = function (include) {
-  if (typeof include === 'function') {
-    include();
-  } else if (typeof include === 'object') {
-    Object.keys(include).forEach(function (key) {
-      if (typeof include[key] === 'function') {
-        include[key]();
-      }
-    });
-  }
+    if (typeof include === 'function') {
+        include();
+    } else if ((typeof include === 'undefined' ? 'undefined' : _typeof(include)) === 'object') {
+        Object.keys(include).forEach(function (key) {
+            if (typeof include[key] === 'function') {
+                include[key]();
+            }
+        });
+    }
 };
 
 /***/ })
