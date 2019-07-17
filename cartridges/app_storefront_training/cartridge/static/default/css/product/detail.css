@@ -546,5 +546,8 @@ label.availability {
     max-height: 100%;
     transition-timing-function: ease-in-out; }
 
+.recommendations {
+  margin-top: 3rem; }
+
 
 /*# sourceMappingURL=detail.css.map*/
