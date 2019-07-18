@@ -1,0 +1,4 @@
+<body>
+    <p>Hi ${pdict.userName},</p>
+    <p>You added "${pdict.lastAddedProductName}" in your cart, which costs ${pdict.lastAddedProductPrice}</p>
+</body>
