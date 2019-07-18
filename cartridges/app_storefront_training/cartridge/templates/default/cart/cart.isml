@@ -60,6 +60,9 @@
                             <isinclude template="cart/productCard/cartProductCard" />
                         </isif>
                     </isloop>
+                    <isif condition="${pdict.isExceed}">
+                        <p class="exceed-message">Your cart total exceeds $<isprint value="${pdict.priceLimit}" style="INTEGER"/></p>
+                    </isif>
                     <isinclude template="cart/cartApproachingDiscount" />
                 </div>
                 <!---totals, and checkout actions--->
