@@ -818,5 +818,9 @@ div.availability {
 .bonus-product-button {
   margin-right: 1.5em; }
 
+.exceed-message {
+  background: orange;
+  padding: 0.5rem; }
+
 
 /*# sourceMappingURL=cart.css.map*/

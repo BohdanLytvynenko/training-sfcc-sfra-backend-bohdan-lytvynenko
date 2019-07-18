@@ -4640,6 +4640,13 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
+            <attribute-definition attribute-id="priceLimit">
+                <display-name xml:lang="x-default">Price limit for total gross in the cart</display-name>
+                <type>int</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>200</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="rateLimiterThreshold">
                 <display-name xml:lang="x-default">Rate Limiter Threshold</display-name>
                 <description xml:lang="x-default">This number indicates the number of times failures for Logins, GiftCert Balances, and Order Tracking requests will be allowed before displaying a CAPTCHA-style pop-up rate limiter</description>
@@ -4827,6 +4834,7 @@
                 <attribute attribute-id="countryCode"/>
                 <attribute attribute-id="customerServiceEmail"/>
                 <attribute attribute-id="mapAPI"/>
+                <attribute attribute-id="priceLimit"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
