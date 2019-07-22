@@ -1,5 +1,5 @@
 <body>
     <p>Dear ${pdict.firstNameField} ${pdict.lastNameField},</p>
     <p>Thanks for signing up to receive our newsletter</p>
-    <p>Your coupon code to get a 20% off is ${couponCode}</p>
+    <p>Your coupon code to get a 20% off is "${pdict.couponCode}"</p>
 </body>

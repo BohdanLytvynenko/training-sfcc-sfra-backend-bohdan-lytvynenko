@@ -1,0 +1,6 @@
+<isdecorate template="common/layout/page">
+    <p style="text-align:center; 
+        font-size:30px; 
+        padding:10px;
+        color:red">Error: Subscription with given email is already exist</p>
+</isdecorate>
