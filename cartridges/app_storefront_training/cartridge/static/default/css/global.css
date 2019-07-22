@@ -13731,5 +13731,12 @@ div.availability {
     top: 0.4em;
     width: 0.8em; }
 
+.newsletter-form {
+  width: 30rem;
+  margin: 3rem auto; }
+  .newsletter-form .form-group.required .form-control-label::before {
+    content: "*";
+    color: #c00; }
+
 
 /*# sourceMappingURL=global.css.map*/
