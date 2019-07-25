@@ -1,2 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01"/>
+
+<jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
+    <job job-id="categoryAssignationJob" priority="0">
+        <description>Automatic Category assignation</description>
+        <parameters/>
+        <flow>
+            <context site-id="RefArch"/>
+            <step step-id="categoryAssignationJob" type="ExecuteScriptModule" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="ExecuteScriptModule.Module">app_storefront_training/cartridge/scripts/job/categoryAssignationJob.js</parameter>
+                    <parameter name="ExecuteScriptModule.FunctionName">execute</parameter>
+                    <parameter name="ExecuteScriptModule.Transactional">false</parameter>
+                    <parameter name="brand">Namco</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <flow>
+            <context site-id="Sites"/>
+            <step step-id="catalogImport" type="ImportCatalog" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="WorkingFolder">instance</parameter>
+                    <parameter name="FileNamePattern">jobfile.xml</parameter>
+                    <parameter name="NoFilesFoundHandling">NO_FILES_FOUND</parameter>
+                    <parameter name="ImportMode">Merge</parameter>
+                    <parameter name="ImportFailedHandling">WARN</parameter>
+                    <parameter name="AfterImportFileHandling">Archive</parameter>
+                    <parameter name="ArchiveFolder">archive</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <flow>
+            <context site-id="RefArch"/>
+            <step step-id="reindex" type="SearchReindex" enforce-restart="false">
+                <description/>
+                <parameters>
+                    <parameter name="Product related search indexes">true</parameter>
+                    <parameter name="Active data search index">true</parameter>
+                    <parameter name="Content search index">true</parameter>
+                    <parameter name="Indexer Type">Full Index Rebuild</parameter>
+                </parameters>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-once enabled="true">
+                <date>2019-07-23Z</date>
+                <time>09:12:31.000Z</time>
+            </run-once>
+        </triggers>
+    </job>
+
+</jobs>
