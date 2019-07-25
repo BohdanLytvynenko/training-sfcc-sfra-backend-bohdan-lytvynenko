@@ -1,2 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01"/>
+
+<job job-id="exportOrders" priority="0">
+    <description>Export orders job</description>
+    <parameters/>
+    <flow>
+        <context site-id="RefArch"/>
+        <step step-id="ordersToXml" type="ExecuteScriptModule" enforce-restart="false">
+            <description>Writes orders details to XML file</description>
+            <parameters>
+                <parameter name="ExecuteScriptModule.Module">app_storefront_training/cartridge/scripts/job/exportOrder.js</parameter>
+                <parameter name="ExecuteScriptModule.FunctionName">execute</parameter>
+                <parameter name="ExecuteScriptModule.Transactional">false</parameter>
+                <parameter name="folder">exports</parameter>
+            </parameters>
+        </step>
+    </flow>
+    <rules/>
+    <triggers>
+        <run-once enabled="false">
+            <date>2019-07-25Z</date>
+            <time>08:53:47.000Z</time>
+        </run-once>
+    </triggers>
+</job>
