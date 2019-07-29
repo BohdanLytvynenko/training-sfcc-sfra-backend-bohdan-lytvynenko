@@ -15,65 +15,59 @@ server.get('Start', function (req, res, next) {
 		newsletterForm: newsletterForm
 	});
 	
-	next();
+	return next();
 });
 
 server.post('HandleForm', function (req, res, next) {  // form gets validated here
 	var newsletterForm = server.forms.getForm('newsletter'); // name the xml!
 	var Transaction = require('dw/system/Transaction');
 	var CouponMgr = require('dw/campaign/CouponMgr');
-	var Mail = require('dw/net/Mail');
-	var HashMap = require('dw/util/HashMap');
-	var Resource = require('dw/web/Resource');
-	var Template = require('dw/util/Template');
-	var Site = require('dw/system/Site');
+
+	var formErrors = require('*/cartridge/scripts/formErrors');
 	var couponCode;
 
 	var myCoupon = CouponMgr.getCoupon('20_off');
+
+	var redirectUrl = URLUtils.url("Home-Show").toString();
+
+	var resultFields = {
+        firstName: newsletterForm.firstname.value,
+        lastName: newsletterForm.lastname.value,
+        email: newsletterForm.email.value
+	};
 	
-	Transaction.wrap(function() {
-		try {
-			// creating custom object
-			var customObjectInstance = CustomObjectMgr.createCustomObject("NewsletterSubscr", newsletterForm.email.htmlValue.toString());	
-			customObjectInstance.custom.firstName = newsletterForm.firstname.htmlValue.toString();		
-			customObjectInstance.custom.lastName = newsletterForm.lastname.htmlValue.toString();
+	if (newsletterForm.valid) {
+		res.setViewData(resultFields);
 
-			couponCode = myCoupon.getNextCouponCode();
-			customObjectInstance.custom.couponCode = couponCode;
+		res.json({
+			success: true,
+			redirectUrl: redirectUrl
+		});
 
-			// sending message with promocode
-			var userObjectForEmail = {
-				firstNameField: newsletterForm.firstname.htmlValue.toString(),
-				lastNameField: newsletterForm.lastname.htmlValue.toString(),
-				couponCode: couponCode
-			};
+		Transaction.wrap(function() {
+			try {
+				// creating custom object
+				var customObjectInstance = CustomObjectMgr.createCustomObject("NewsletterSubscr", newsletterForm.email.htmlValue.toString());	
+				customObjectInstance.custom.firstName = newsletterForm.firstname.htmlValue.toString();		
+				customObjectInstance.custom.lastName = newsletterForm.lastname.htmlValue.toString();
+	
+				couponCode = myCoupon.getNextCouponCode();
+				customObjectInstance.custom.couponCode = couponCode;
+			}
+			catch(e) {
+				res.render('newsletterError');
+			}
+		});
 
-			var newsletterEmail = new Mail();
-			var context = new HashMap();
+	} else {
+        res.json({
+            success: false,
+            fields: formErrors.getFormErrors(newsletterForm)
+        });
+	}
 
-			Object.keys(userObjectForEmail).forEach(function (key) {
-				context.put(key, userObjectForEmail[key]);
-			});
-
-			newsletterEmail.addTo(newsletterForm.email.htmlValue.toString());
-			newsletterEmail.setSubject(Resource.msg('subject.newsletter.email', 'mail', null));
-			newsletterEmail.setFrom(
-					Site.current.getCustomPreferenceValue('customerServiceEmail')
-					|| 'no-reply@salesforce.com');
-
-			var template = new Template('newsletterMail');
-			var content = template.render(context).text;
-			newsletterEmail.setContent(content, 'text/html', 'UTF-8');
-			newsletterEmail.send();
-
-			res.render('home/homePage');
-		}
-		catch(e) {
-			res.render('newsletterError');
-		}
-	});
-
-	next();
+	return next();
+	
 });
 
 module.exports = server.exports();

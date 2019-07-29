@@ -8,6 +8,7 @@
     <form 
         action="${pdict.actionUrl}" 
         method="POST"
+        novalidate="novalidate"
         class="newsletter-form"
         <isprint value="${pdict.newsletterForm.attributes}" encoding="off" />>
 
@@ -41,7 +42,7 @@
             <div class="invalid-feedback"></div>
         </div>
 
-        <button type="submit" class="btn btn-primary" name="subscribe">Save</button>
+        <button type="submit" class="btn btn-primary js-save-subscription" name="subscribe">Save</button>
 
     </form>
 </isdecorate>
