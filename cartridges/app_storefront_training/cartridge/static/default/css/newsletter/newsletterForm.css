@@ -1,0 +1,9 @@
+.newsletter-form {
+  width: 30rem;
+  margin: 3rem auto; }
+  .newsletter-form .form-group.required .form-control-label::before {
+    content: "*";
+    color: #c00; }
+
+
+/*# sourceMappingURL=newsletterForm.css.map*/

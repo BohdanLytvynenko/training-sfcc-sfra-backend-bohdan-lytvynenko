@@ -35,3 +35,8 @@ storefrontdata/
 test/appium/webdriver/config.json
 .vscode
 .history
+cartridges/app_storefront_training/cartridge/static/default/css/cart.css
+cartridges/app_storefront_training/cartridge/static/default/css/global.css
+cartridges/app_storefront_training/cartridge/static/default/css/global.css.map
+cartridges/app_storefront_training/cartridge/static/default/css/newsletter/newsletterForm.css.map
+cartridges/app_storefront_training/cartridge/static/default/css/product/detail.css
