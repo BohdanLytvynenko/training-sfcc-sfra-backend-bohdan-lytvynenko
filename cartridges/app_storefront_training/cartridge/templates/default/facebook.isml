@@ -1,0 +1,19 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addJs('/js/addressBook.js');
+        assets.addCss('/css/account/addressBook.css');
+    </isscript>
+
+    <a class="btn btn-primary m-3" href="${dw.system.Site.getCurrent().getCustomPreferenceValue('facebookLogin')}">Login</a>
+
+    <isif condition="${pdict.info}">
+        <div class="p-3">
+            <p>id: ${pdict.info.id}</p>
+            <p>Name: ${pdict.info.name}</p>
+            <p>Email: ${pdict.info.email}</p>
+            <img src="${pdict.info.picture.data.url}" alt="avatar" style="width: 300px; height: 300px"/>
+        </div>
+    </isif>
+
+</isdecorate>

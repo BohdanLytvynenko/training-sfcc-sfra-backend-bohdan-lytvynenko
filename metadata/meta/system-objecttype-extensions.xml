@@ -4625,6 +4625,30 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>true</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="facebookGetInfo">
+                <display-name xml:lang="x-default">Facebook get profile data</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+                <default-value>https://graph.facebook.com/v3.3/me?fields=id,name,email,picture.width(300).height(300)&amp;access_token=</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="facebookGetToken">
+                <display-name xml:lang="x-default">Facebook get token</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+                <default-value>https://graph.facebook.com/v3.3/oauth/access_token?client_id=854652424901433&amp;redirect_uri=https://osfglobalservices47-alliance-prtnr-na06-dw.demandware.net/on/demandware.store/Sites-RefArch-Site/en_US/Facebook-Show&amp;client_secret=54635d9681f6b7f685ed1f34402185a0&amp;code=</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="facebookLogin">
+                <display-name xml:lang="x-default">Facebook Login request</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+                <default-value>https://www.facebook.com/v3.3/dialog/oauth?client_id=854652424901433&amp;redirect_uri=https://osfglobalservices47-alliance-prtnr-na06-dw.demandware.net/on/demandware.store/Sites-RefArch-Site/en_US/Facebook-Show&amp;scope=email&amp;response_type=code&amp;state={'{st=state12}'}</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="listPriceDefault">
                 <display-name xml:lang="x-default">Default List Price Book ID</display-name>
                 <type>string</type>
@@ -4827,6 +4851,9 @@
                 <attribute attribute-id="countryCode"/>
                 <attribute attribute-id="customerServiceEmail"/>
                 <attribute attribute-id="mapAPI"/>
+                <attribute attribute-id="facebookLogin"/>
+                <attribute attribute-id="facebookGetToken"/>
+                <attribute attribute-id="facebookGetInfo"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
