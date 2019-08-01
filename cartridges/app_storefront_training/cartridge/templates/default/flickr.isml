@@ -1,0 +1,15 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addCss('/css/account/flickr.css');
+    </isscript>
+
+    <div class="row">
+        <isloop items="${pdict.message.items}" var="item">
+            <div class="col-4">
+                <img class="w-70" src="${item.media.m}" alt="${item.title}" />
+            </div>
+        </isloop>
+    </div>
+
+</isdecorate> 
