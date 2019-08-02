@@ -1,0 +1,18 @@
+<isdecorate template="common/layout/page">
+
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets');
+        assets.addJs('/js/productDetail.js');
+        assets.addCss('/css/product/detail.css');
+    </isscript>
+
+    <div class="recommendations row">
+        <isloop items="${pdict.sonyProducts}" var="productID">
+            <div class="col-4 col-sm-3">
+                <isinclude url="${URLUtils.url('Tile-Show', 'pid', productID + 'M', 'swatches', true, 'ratings', true)}" />
+            </div>
+        </isloop>
+
+    </div>
+
+</isdecorate>
